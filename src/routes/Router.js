@@ -6,11 +6,8 @@ const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 
 /***** Pages ****/
 
-const Starter1 = lazy(() => import("../views/Starter1.js"));
-const Starter2 = lazy(() => import("../views/Starter2.js"));
-const Starter3 = lazy(() => import("../views/Starter3.js"));
-const Starter4 = lazy(() => import("../views/Starter4.js"));
-
+const Login = lazy(() => import("../pages/LoginPage.js"));
+const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
@@ -28,11 +25,9 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/starter1" /> },
-      { path: "/starter1", exact: true, element: <Starter1 /> },
-      { path: "/starter2", exact: true, element: <Starter2 /> },
-      { path: "/starter3", exact: true, element: <Starter3 /> },
-      { path: "/starter4", exact: true, element: <Starter4 /> },
+      { path: "/", element: <Navigate to="/login" /> },
+      { path: "/login", exact: true, element: <Login /> },
+      { path: "/join", exact: true, element: <Join /> },
       { path: "/about", exact: true, element: <About /> },
       { path: "/alerts", exact: true, element: <Alerts /> },
       { path: "/badges", exact: true, element: <Badges /> },
