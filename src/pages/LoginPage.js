@@ -17,7 +17,7 @@ function LoginPage() {
 
   const onClickLogin = (e) => {
     e.preventDefault();
-    fetch("[url]", {
+    fetch("http://localhost:8080/auth/login", {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -30,7 +30,6 @@ function LoginPage() {
       .then((res) => {
         if (res.ok) {
           alert("로그인 성공!");
-          navigate("/starter1");
         } else {
           throw new Error("네트워크 오류 발생");
         }

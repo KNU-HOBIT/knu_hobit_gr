@@ -74,7 +74,7 @@ function JoinPage() {
       alert("모든 필드를 입력하세요.");
       return;
     }
-    fetch("[url]", {
+    fetch("http://localhost:8080/auth/sign-up", {
       method: "post",
       headers: {
         "content-type": "application/json",

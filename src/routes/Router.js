@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
@@ -9,6 +9,10 @@ const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
 const Login = lazy(() => import("../pages/LoginPage.js"));
 const Join = lazy(() => import("../pages/JoinPage.js"));
 const About = lazy(() => import("../views/About.js"));
+const Starter1 = lazy(() => import("../views/Starter1.js"));
+const Starter2 = lazy(() => import("../views/Starter2.js"));
+const Starter3 = lazy(() => import("../views/Starter3.js"));
+const Starter4 = lazy(() => import("../views/Starter4.js"));
 const Alerts = lazy(() => import("../views/ui/Alerts"));
 const Badges = lazy(() => import("../views/ui/Badges"));
 const Buttons = lazy(() => import("../views/ui/Buttons"));
@@ -20,6 +24,17 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
 /*****Routes******/
 
+// 인증된 사용자인지 확인하는 함수
+const isAuthenticated = () => {
+  const token = localStorage.getItem("login_token");
+  return token ? true : false;
+};
+
+// 페이지에 대한 라우트를 보호하는 컴포넌트
+const RouteGuard = ({ component }) => {
+  return isAuthenticated() ? component : <Navigate to="/login" />;
+};
+
 const ThemeRoutes = [
   {
     path: "/",
@@ -28,15 +43,71 @@ const ThemeRoutes = [
       { path: "/", element: <Navigate to="/login" /> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
-      { path: "/about", exact: true, element: <About /> },
-      { path: "/alerts", exact: true, element: <Alerts /> },
-      { path: "/badges", exact: true, element: <Badges /> },
-      { path: "/buttons", exact: true, element: <Buttons /> },
-      { path: "/cards", exact: true, element: <Cards /> },
-      { path: "/grid", exact: true, element: <Grid /> },
-      { path: "/table", exact: true, element: <Tables /> },
-      { path: "/forms", exact: true, element: <Forms /> },
-      { path: "/breadcrumbs", exact: true, element: <Breadcrumbs /> },
+      {
+        path: "/starter1",
+        exact: true,
+        element: <RouteGuard component=<Starter1 /> />,
+      },
+      {
+        path: "/starter2",
+        exact: true,
+        element: <RouteGuard component=<Starter2 /> />,
+      },
+      {
+        path: "/starter3",
+        exact: true,
+        element: <RouteGuard component=<Starter3 /> />,
+      },
+      {
+        path: "/starter4",
+        exact: true,
+        element: <RouteGuard component=<Starter4 /> />,
+      },
+      {
+        path: "/about",
+        exact: true,
+        element: <RouteGuard component={<About />} />,
+      },
+      {
+        path: "/alerts",
+        exact: true,
+        element: <RouteGuard component={<Alerts />} />,
+      },
+      {
+        path: "/badges",
+        exact: true,
+        element: <RouteGuard component={<Badges />} />,
+      },
+      {
+        path: "/buttons",
+        exact: true,
+        element: <RouteGuard component={<Buttons />} />,
+      },
+      {
+        path: "/cards",
+        exact: true,
+        element: <RouteGuard component={<Cards />} />,
+      },
+      {
+        path: "/grid",
+        exact: true,
+        element: <RouteGuard component={<Grid />} />,
+      },
+      {
+        path: "/table",
+        exact: true,
+        element: <RouteGuard component={<Tables />} />,
+      },
+      {
+        path: "/forms",
+        exact: true,
+        element: <RouteGuard component={<Forms />} />,
+      },
+      {
+        path: "/breadcrumbs",
+        exact: true,
+        element: <RouteGuard component={<Breadcrumbs />} />,
+      },
     ],
   },
 ];
