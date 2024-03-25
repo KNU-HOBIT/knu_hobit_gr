@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 function LoginPage() {
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
@@ -14,29 +14,42 @@ function LoginPage() {
   const handleInputPw = (e) => {
     setInputPw(e.target.value);
   };
+  function saveTokensFromResponse(response) {
+    const Accesstoken = response.headers["accesstoken"]; // response.headers.get() 사용
+    if (Accesstoken) {
+      localStorage.setItem("Accesstoken", Accesstoken);
+      console.log("Accesstoken:", Accesstoken);
+    } else {
+      console.error("응답에서 Accesstoken 헤더를 찾을 수 없습니다.");
+    }
+  }
 
   const onClickLogin = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/auth/login", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: inputId,
-        password: inputPw,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          alert("로그인 성공!");
+    axios
+      .post(
+        "http://localhost:8080/auth/login",
+        {
+          email: inputId,
+          password: inputPw,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          saveTokensFromResponse(response);
+          navigate("/starter1");
         } else {
-          throw new Error("네트워크 오류 발생");
+          throw new Error("로그인 실패");
         }
       })
-      .catch((error) => {
-        console.error("오류 발생:", error);
-      });
+      .catch((error) => console.error("로그인 중 에러 발생:", error));
   };
 
   const onClickRegister = () => {
