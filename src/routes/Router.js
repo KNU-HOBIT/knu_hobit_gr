@@ -26,13 +26,24 @@ const Breadcrumbs = lazy(() => import("../views/ui/Breadcrumbs"));
 
 // 인증된 사용자인지 확인하는 함수
 const isAuthenticated = () => {
-  const token = localStorage.getItem("login_token");
+  const token = localStorage.getItem("Accesstoken");
+  console.log("Accesstoken 파싱 성공 " + token);
   return token ? true : false;
 };
 
 // 페이지에 대한 라우트를 보호하는 컴포넌트
 const RouteGuard = ({ component }) => {
-  return isAuthenticated() ? component : <Navigate to="/login" />;
+  return isAuthenticated() ? component : <LoginRequiredPage />;
+};
+
+const LoginRequiredPage = () => {
+  return (
+    <div>
+      <h3>로그인이 필요한 서비스입니다.</h3>
+
+      <Login />
+    </div>
+  );
 };
 
 const ThemeRoutes = [
@@ -40,28 +51,28 @@ const ThemeRoutes = [
     path: "/",
     element: <FullLayout />,
     children: [
-      { path: "/", element: <Navigate to="/login" /> },
+      { path: "/", element: <RouteGuard component={<Starter1 />} /> },
       { path: "/login", exact: true, element: <Login /> },
       { path: "/join", exact: true, element: <Join /> },
       {
         path: "/starter1",
         exact: true,
-        element: <RouteGuard component=<Starter1 /> />,
+        element: <RouteGuard component={<Starter1 />} />,
       },
       {
         path: "/starter2",
         exact: true,
-        element: <RouteGuard component=<Starter2 /> />,
+        element: <RouteGuard component={<Starter2 />} />,
       },
       {
         path: "/starter3",
         exact: true,
-        element: <RouteGuard component=<Starter3 /> />,
+        element: <RouteGuard component={<Starter3 />} />,
       },
       {
         path: "/starter4",
         exact: true,
-        element: <RouteGuard component=<Starter4 /> />,
+        element: <RouteGuard component={<Starter4 />} />,
       },
       {
         path: "/about",
